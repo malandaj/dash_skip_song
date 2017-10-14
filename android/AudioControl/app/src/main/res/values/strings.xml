@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">AudioControl</string>
+    <string name="app_name" translatable="false">AudioControl</string>
+    <string name="connect">Connect</string>
 </resources>
