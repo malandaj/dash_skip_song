@@ -2,8 +2,8 @@ package com.eroland.audiocontrol;
 
 import android.content.Context;
 import android.media.AudioManager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -19,12 +19,12 @@ import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = "MainActivity";
 
-    MqttAndroidClient mqttAndroidClient;
     final String serverUri = "tcp://test.mosquitto.org:1883";
-    String clientId = "AndroidClient";
     final String subscriptionTopic = "nextSongTopic";
-    private static final String TAG = "MyActivity";
+    MqttAndroidClient mqttAndroidClient;
+    String clientId = "AndroidClient";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,16 +38,16 @@ public class MainActivity extends AppCompatActivity {
         mqttAndroidClient.close();
     }
 
-    public void connectToMQTT(View v){
+    public void connectToMQTT(View v) {
         clientId = clientId + System.currentTimeMillis();
         mqttAndroidClient = new MqttAndroidClient(getApplicationContext(), serverUri, clientId);
         mqttAndroidClient.setCallback(new MqttCallbackExtended() {
             @Override
             public void connectComplete(boolean reconnect, String serverURI) {
-                if(reconnect){
+                if (reconnect) {
                     subscribeToTopic();
                     Log.v(TAG, "Reconectado a " + serverURI);
-                }else {
+                } else {
                     Log.v(TAG, "Conectado a: " + serverURI);
                 }
             }
@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
         mqttConnectOptions.setAutomaticReconnect(true);
         mqttConnectOptions.setCleanSession(true);
 
-        try{
+        try {
             mqttAndroidClient.connect(mqttConnectOptions, null, new IMqttActionListener() {
                 @Override
                 public void onSuccess(IMqttToken asyncActionToken) {
@@ -89,13 +89,13 @@ public class MainActivity extends AppCompatActivity {
                     Log.v(TAG, "No se pudo conectar a: " + serverUri);
                 }
             });
-        } catch (MqttException ex){
+        } catch (MqttException ex) {
             ex.printStackTrace();
         }
     }
 
-    public void subscribeToTopic(){
-        try{
+    public void subscribeToTopic() {
+        try {
             mqttAndroidClient.subscribe(subscriptionTopic, 0, null, new IMqttActionListener() {
                 @Override
                 public void onSuccess(IMqttToken asyncActionToken) {
@@ -107,14 +107,14 @@ public class MainActivity extends AppCompatActivity {
                     Log.v(TAG, "No se pudo subscribir");
                 }
             });
-        }catch (MqttException ex){
+        } catch (MqttException ex) {
             ex.printStackTrace();
         }
     }
 
-    public void nextSong(){
-        AudioManager audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
-        if(audioManager.isMusicActive()) {
+    public void nextSong() {
+        AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        if (audioManager.isMusicActive()) {
             KeyEvent nextEvent = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_NEXT);
             audioManager.dispatchMediaKeyEvent(nextEvent);
         }
