@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name" translatable="false">AudioControl</string>
     <string name="connect">Connect</string>
+    <string name="previous">Previous</string>
+    <string name="next">Next</string>
+    <string name="pause">Pause</string>
+    <string name="key_to_trigger">Key to trigger</string>
 </resources>

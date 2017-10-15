@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="connect">Conectar</string>
+    <string name="key_to_trigger">Tecla a activar</string>
+    <string name="next">Siguiente</string>
+    <string name="pause">Pausa</string>
+    <string name="previous">Anterior</string>
 </resources>
