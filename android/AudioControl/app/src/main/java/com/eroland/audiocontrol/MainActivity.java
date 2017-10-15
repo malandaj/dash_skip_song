@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.RadioGroup;
 
 import org.eclipse.paho.android.service.MqttAndroidClient;
 import org.eclipse.paho.client.mqttv3.DisconnectedBufferOptions;
@@ -113,9 +114,25 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void nextSong() {
+        RadioGroup radioGroup = (RadioGroup) findViewById(R.id.radio_group_key);
+
+        KeyEvent nextEvent;
+
+        switch (radioGroup.getCheckedRadioButtonId()) {
+            case R.id.radio_button_previous:
+                nextEvent = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_PREVIOUS);
+                break;
+            case R.id.radio_button_pause:
+                nextEvent = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE);
+                break;
+            default:
+                nextEvent = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_NEXT);
+                break;
+        }
+
         AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+
         if (audioManager.isMusicActive()) {
-            KeyEvent nextEvent = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_NEXT);
             audioManager.dispatchMediaKeyEvent(nextEvent);
         }
     }
